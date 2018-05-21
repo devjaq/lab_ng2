@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html ng-app="todoApp" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+
+  
+  <section ng-controller="TodoController as todo">
+      <h1>TODO List</h1>
+      <p id="slogan">A place to store the things you have to do!</p>
+
+    <input type="text" class="function" ng-model="searchText" placeholder="Filter your to-dos">
+
+    <ol>
+      <li ng-repeat="task in todo.list | filter: searchText ">
+        <!-- {{task.taskName}} -->
+        <div class="todo-item">
+
+            <div>
+                <button type="button" ng-click="todo.completeTask(todo, $index)" ng-if="task.completed === false"  ng-model="done" class="list-button">Complete</button>
+                <p ng-class="{completed: task.completed }">{{ task.taskName}} </p>  
+
+            </div>
+            <div>
+              <button type="button" class="list-button" ng-hide="showForm" ng-click="showForm = true;" >Edit</button>
+              <i class="material-icons" ng-click="todo.removeTask($index)">
+                  close
+              </i>
+            </div>
+        </div>
+        <form ng-show="showForm">
+          <input type="text" class="function" ng-model="todo.edit.taskName" placeholder="Change your To-do">
+          <label for="checkbox">Complete?
+            <input class="check" type="checkbox" ng-model="todo.edit.completed">
+          </label>
+          <button type="button" ng-click="todo.editTask(todo, $index); showForm = false;">Save Changes</button>
+        </form>
+      </li>
+
+    </ol>
+    <input type="text" class="function" ng-model="todo.do.taskName"  placeholder="Add your to do">
+    <button type="button" class="function" ng-click=" todo.do.completed = false; todo.addTask(todo);" id="add">Add</button>
+        
+  </section>
+
+  <script src="https://code.angularjs.org/1.6.5/angular.min.js"></script>
+  <script src="scripts/module.js"></script>
+  <script src="scripts/controller.js"></script>
+</body>
+</html>
